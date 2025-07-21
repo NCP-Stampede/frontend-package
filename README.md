@@ -6,7 +6,7 @@ This package provides a suite of reusable Flutter widgets, themes, and design ut
 
 This package is part of a multi-repository project:
 *   **`frontend_package` (This repo):** The reusable UI kit.
-*   **`backend_package`:** Handles data models, state management, and services.
+*   **`backend_package`:** Handles scraping, storage in MongoDB, and Flask in the back.
 *   **`northside-app`:** A complete implementation and example of how to use these packages.
 
 ## 🧙 Features
