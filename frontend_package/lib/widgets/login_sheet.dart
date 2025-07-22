@@ -1,14 +1,15 @@
 // lib/widgets/login_sheet.dart
 
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+// Removed GetX dependency for reusability
 import 'package:figma_squircle/figma_squircle.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../core/design_constants.dart';
 import '../core/utils/logger.dart';
 
 class LoginSheet extends StatefulWidget {
-  const LoginSheet({super.key});
+  final VoidCallback? onLogin;
+  const LoginSheet({super.key, this.onLogin});
 
   @override
   State<LoginSheet> createState() => _LoginSheetState();
@@ -42,7 +43,9 @@ class _LoginSheetState extends State<LoginSheet> {
     
     // For now, we just print and close the sheet.
     AppLogger.debug('Logging in...');
-    Get.back();
+    if (widget.onLogin != null) {
+      widget.onLogin!();
+    }
   }
 
   @override
@@ -50,8 +53,8 @@ class _LoginSheetState extends State<LoginSheet> {
     final double screenWidth = MediaQuery.of(context).size.width;
     final bool isNarrowScreen = screenWidth < 360; // Check for S9 and similar devices
     
-    // Get safe area padding to respect notch/status bar
-    final EdgeInsets padding = MediaQuery.of(context).padding;
+    final mediaQuery = MediaQuery.of(context);
+    final EdgeInsets padding = mediaQuery.padding;
     
     // Adaptive sizing based on screen dimensions
     final double initialChildSize = isNarrowScreen ? 0.85 : 0.9;

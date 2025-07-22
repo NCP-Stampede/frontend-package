@@ -1,7 +1,7 @@
 // lib/widgets/shared_header.dart
 
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+// Removed GetX dependency for reusability
 import 'package:google_fonts/google_fonts.dart';
 import '../presentation/app_shell/app_shell_controller.dart';
 
@@ -12,7 +12,6 @@ class SharedHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final AppShellController appShellController = Get.find();
     final double screenWidth = MediaQuery.of(context).size.width;
     final double titleFontSize = screenWidth * 0.07; // Match sport detail page styling
 
@@ -36,8 +35,7 @@ class SharedHeader extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
           ),
           GestureDetector(
-            onTap: () {
-              appShellController.changePage(4);
+            onTap: onTrailingTap, // Use callback for navigation
             },
             child: CircleAvatar(
               radius: 22,

@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:get/get.dart';
+// Removed GetX dependency for reusability
 import 'package:figma_squircle/figma_squircle.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -11,7 +11,8 @@ import '../core/design_constants.dart';
 import '../models/article.dart';
 
 class ArticleDetailSheet extends StatelessWidget {
-  const ArticleDetailSheet({super.key, required this.article, this.scrollController});
+  final void Function(String error)? onLinkError;
+  const ArticleDetailSheet({super.key, required this.article, this.scrollController, this.onLinkError});
   final ScrollController? scrollController;
   final Article article;
 
@@ -59,20 +60,14 @@ class ArticleDetailSheet extends StatelessWidget {
               if (await canLaunchUrl(uri)) {
                 await launchUrl(uri, mode: LaunchMode.externalApplication);
               } else {
-                Get.snackbar(
-                  'Error',
-                  'Unable to open link in external browser',
-                  snackPosition: SnackPosition.BOTTOM,
-                  duration: const Duration(seconds: 2),
-                );
+                if (onLinkError != null) {
+                  onLinkError!("Unable to open link in external browser");
+                }
               }
             } catch (e) {
-              Get.snackbar(
-                'Error',
-                'Error opening link',
-                snackPosition: SnackPosition.BOTTOM,
-                duration: const Duration(seconds: 2),
-              );
+              if (onLinkError != null) {
+                onLinkError!("Error opening link");
+              }
             }
           },
       ));
