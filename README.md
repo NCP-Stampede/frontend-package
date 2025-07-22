@@ -1,6 +1,8 @@
 # Stampede - Frontend Package
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+<img alt="Dart" src="https://img.shields.io/badge/Dart-0175C2?logo=dart&logoColor=white">
+</p>
 
 This package provides a suite of reusable Flutter widgets, themes, and design utilities for the Stampede School App project. It is designed to be a flexible UI kit that can be styled to fit any school's branding, accelerating the development of beautiful, consistent, and responsive school-specific mobile applications.
 
