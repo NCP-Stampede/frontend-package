@@ -3,10 +3,10 @@
 import 'package:flutter/material.dart';
 // Removed GetX dependency for reusability
 import 'package:google_fonts/google_fonts.dart';
-import '../presentation/app_shell/app_shell_controller.dart';
+// Removed app-specific import for reusability
 
-class SharedHeader extends StatelessWidget {
-  const SharedHeader({super.key, required this.title});
+  final VoidCallback? onTrailingTap;
+  const SharedHeader({super.key, required this.title, this.onTrailingTap});
 
   final String title;
 
@@ -35,7 +35,7 @@ class SharedHeader extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
           ),
           GestureDetector(
-            onTap: onTrailingTap, // Use callback for navigation
+            onTap: onTrailingTap,
             child: CircleAvatar(
               radius: 22,
               backgroundColor: Colors.grey.shade300,

@@ -8,8 +8,9 @@ import '../core/design_constants.dart';
 import '../core/utils/logger.dart';
 
 class WebViewSheet extends StatefulWidget {
-  const WebViewSheet({super.key, required this.url});
   final String url;
+  final void Function(String error)? onError;
+  const WebViewSheet({super.key, required this.url, this.onError});
 
   @override
   State<WebViewSheet> createState() => _WebViewSheetState();
@@ -77,46 +78,32 @@ class _WebViewSheetState extends State<WebViewSheet>
         await launchUrl(uri, mode: LaunchMode.externalApplication);
       } else {
         AppLogger.warning('Could not launch URL: ${widget.url}');
-        if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Unable to open link in external browser'),
-              duration: Duration(seconds: 2),
-            ),
-          );
+        if (widget.onError != null) {
+          widget.onError!("Unable to open link in external browser");
         }
       }
     } catch (e) {
       AppLogger.error('Error launching URL in external browser', e);
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Error opening link in external browser'),
-            duration: Duration(seconds: 2),
-          ),
-        );
+      if (widget.onError != null) {
+        widget.onError!("Error opening link in external browser");
       }
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final double screenWidth = MediaQuery.of(context).size.width;
+    final mediaQuery = MediaQuery.of(context);
+    final double screenWidth = mediaQuery.size.width;
     final bool isNarrowScreen = screenWidth < 360; // Check for S9 and similar devices
-    
-    // Get safe area padding to respect notch/status bar
-    final EdgeInsets padding = MediaQuery.of(context).padding;
-    
-    // Adaptive sizing based on screen dimensions
+    final EdgeInsets padding = mediaQuery.padding;
     final double initialChildSize = isNarrowScreen ? 0.85 : 0.9;
     final double minChildSize = isNarrowScreen ? 0.4 : 0.5;
     final double maxChildSize = isNarrowScreen ? 0.85 : 0.9;
-    
     return AnimatedBuilder(
       animation: _slideAnimation,
       builder: (context, child) {
         return Transform.translate(
-          offset: Offset(0, (1 - _slideAnimation.value) * MediaQuery.of(context).size.height),
+          offset: Offset(0, (1 - _slideAnimation.value) * mediaQuery.size.height),
           child: Padding(
             padding: EdgeInsets.only(top: padding.top),
             child: DraggableScrollableSheet(
