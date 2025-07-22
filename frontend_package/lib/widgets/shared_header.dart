@@ -36,7 +36,6 @@ class SharedHeader extends StatelessWidget {
           ),
           GestureDetector(
             onTap: onTrailingTap, // Use callback for navigation
-            },
             child: CircleAvatar(
               radius: 22,
               backgroundColor: Colors.grey.shade300,
